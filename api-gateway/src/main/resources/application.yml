@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            # "id" je samo citljivo ime rute, ne utice ni na sta funkcionalno.
+            # "uri: lb://user-service" - "lb" (load balanced) znaci: NE idi na fiksnu
+            # adresu, nego PITAJ Eureku "gde je trenutno user-service?" i posalji tamo.
+            # Ime posle lb:// MORA tacno da se poklopi sa spring.application.name
+            # iz application.yml tog servisa (proveri - "user-service").
+            - id: user-service
+              uri: lb://user-service
+              predicates:
+                # Path predicate: "primeni ovu rutu SAMO ako putanja zahteva
+                # odgovara ovom obrascu". Sve sto pocinje sa /api/users ide ka user-service.
+                - Path=/api/users/**
+
+            - id: restaurant-service
+              uri: lb://restaurant-service
+              predicates:
+                # Restaurant servis ima DVA razlicita "prefiksa" u svojim putanjama
+                # (/api/restaurants i /api/menu-items) - oba idu istom servisu,
+                # pa ih navodimo zajedno, razdvojene zarezom.
+                - Path=/api/restaurants/**,/api/menu-items/**
+
+            # NOVO: order-service. Primeti - /api/orders/user/{userId} takodje
+            # spada ovde (pocinje sa /api/orders), bas kao sto smo namerno
+            # i dizajnirale, bez sukoba sa user-service rutom iznad.
+            - id: order-service
+              uri: lb://order-service
+              predicates:
+                - Path=/api/orders/**
+
+            # NOVO: delivery-service - dva razlicita prefiksa, isto kao restaurant-service.
+            - id: delivery-service
+              uri: lb://delivery-service
+              predicates:
+                - Path=/api/couriers/**,/api/deliveries/**
+
+            # NOVO: notification-service.
+            - id: notification-service
+              uri: lb://notification-service
+              predicates:
+                - Path=/api/notifications/**
+
+server:
+  port: 8090   # 8080 je na ovom racunaru rezervisan od strane Windows-a (System proces, PID 4) - biramo drugi
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    # TODO (Docker Compose faza): UKLONITI - Docker sam resava imena servisa.
+    hostname: localhost
+    # OVO ostaje i posle Docker-a - trajna praksa.
+    instance-id: ${spring.application.name}:${server.port}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway

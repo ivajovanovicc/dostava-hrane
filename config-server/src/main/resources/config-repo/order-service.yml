@@ -1,0 +1,8 @@
+# Ovaj fajl se zove TACNO "order-service.yml" - Config Server po konvenciji
+# automatski zna: kad neko pita za podesavanja aplikacije po imenu "order-service",
+# posalji SADRZAJ ovog fajla. Da smo htele podesavanje deljeno sa SVIMA,
+# fajl bi se zvao "application.yml" umesto imena konkretnog servisa.
+
+delivery:
+  default-fee: 250   # dostavna taksa u RSD - ovo je VREDNOST koju smo prebacile
+                      # OVDE umesto da stoji direktno u order-service/application.yml

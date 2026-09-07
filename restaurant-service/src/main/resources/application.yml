@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: restaurant-service
+
+  datasource:
+    url: jdbc:h2:mem:restaurantdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  h2:
+    console:
+      enabled: true
+
+server:
+  port: 8082
+  error:
+    include-message: always
+    include-binding-errors: always
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    # TODO (Docker Compose faza): UKLONITI - Docker sam resava imena servisa.
+    hostname: localhost
+    # PROMENA (BUG FIX): dodato ${eureka.instance.hostname} na pocetak.
+    # Razlog: kad imamo VISE instanci OVOG servisa (bonus - load balancing demo),
+    # sve one imaju ISTO spring.application.name I isti (unutrasnji) server.port,
+    # pa bi bez imena hosta u ovom sablonu SVE dobile IDENTICAN instance-id -
+    # Eureka bi ih tretirala kao "istu" instancu koja se samo ponovo prijavljuje,
+    # umesto da vidi dve odvojene. Dodavanjem hostname-a (koji je RAZLICIT za
+    # svaku instancu - videti docker-compose.yml, EUREKA_INSTANCE_HOSTNAME),
+    # svaka instanca dobija svoj JEDINSTVEN identifikator.
+    instance-id: ${eureka.instance.hostname}:${spring.application.name}:${server.port}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

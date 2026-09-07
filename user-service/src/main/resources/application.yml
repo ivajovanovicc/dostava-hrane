@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    url: jdbc:h2:mem:userdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    show-sql: true          # ispisuje SQL komande u konzoli - korisno da vidis sta se dešava
+    hibernate:
+      ddl-auto: update      # Hibernate sam pravi/menja tabele prema tvojim Java klasama
+
+  h2:
+    console:
+      enabled: true         # ukljucuje web konzolu za gledanje baze u browseru
+
+server:
+  port: 8081
+  error:
+    include-message: always          # pokazi TACNU poruku greske (npr. koje polje nije validno)
+    include-binding-errors: always   # pokazi listu svih polja koja nisu prosla validaciju
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    # TODO (Docker Compose faza): UKLONITI ovu liniju kad predjemo na Docker.
+    # Ovde je ispravno jer sve radi na jednom racunaru - u Docker-u bi "localhost"
+    # znacio "ja sam", ne drugi servis, i Docker sam resava imena servisa preko
+    # sopstvenog DNS-a bez ove linije.
+    hostname: localhost
+    # OVO ostaje i posle Docker-a - dobra, trajna praksa, ne privremena zakrpa.
+    # "instance-id" (jedinstveni identifikator instance u Eureka registru) se PO
+    # PODRAZUMEVANOM SABLONU pravi od stvarnog imena racunara, potpuno
+    # NEZAVISNO od "hostname" polja iznad. Eksplicitno pravimo instance-id
+    # SAMO od imena aplikacije i porta - korisno i kasnije kad budemo imale
+    # 2 instance restaurant-service (bonus zadatak), da se lako razlikuju.
+    instance-id: ${spring.application.name}:${server.port}
+
+# NOVO: Actuator - koji endpointi da budu javno dostupni. Podrazumevano je
+# izlozen SAMO /actuator/health - eksplicitno dodajemo i info i metrics,
+# tacno kao sto uputstvo trazi.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
