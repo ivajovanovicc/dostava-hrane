@@ -21,3 +21,9 @@ eureka:
     # zbunjuje (vidimo "mrtve" servise kao da rade) - zato ga iskljucujemo.
     # U produkciji bi ovo ostalo UKLJUCENO.
     enable-self-preservation: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

@@ -17,3 +17,9 @@ spring:
           # Gde tacno da trazi fajlove sa podesavanjima - u nasem slucaju,
           # folder config-repo unutar resursa OVOG projekta.
           search-locations: classpath:/config-repo/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
