@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OrderService {
@@ -55,6 +56,13 @@ public class OrderService {
 
         for (OrderItemRequest itemReq : request.getItems()) {
             MenuItemDto menuItem = externalDataService.getMenuItem(itemReq.getMenuItemId());
+
+            if (menuItem.getRestaurant() == null
+                    || !Objects.equals(menuItem.getRestaurant().getId(), request.getRestaurantId())) {
+                throw new IllegalArgumentException(
+                        "Jelo id=" + itemReq.getMenuItemId()
+                                + " ne pripada restoranu id=" + request.getRestaurantId());
+            }
 
             OrderItem orderItem = new OrderItem();
             orderItem.setMenuItemId(menuItem.getId());

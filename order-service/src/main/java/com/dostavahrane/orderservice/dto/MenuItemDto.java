@@ -12,6 +12,7 @@ public class MenuItemDto {
     private String description;
     private BigDecimal price;
     private boolean available;
+    private RestaurantDto restaurant;
 
     public MenuItemDto() {
     }
@@ -54,5 +55,13 @@ public class MenuItemDto {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public RestaurantDto getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(RestaurantDto restaurant) {
+        this.restaurant = restaurant;
     }
 }
