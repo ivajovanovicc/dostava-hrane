@@ -38,7 +38,7 @@ eureka:
     # umesto da vidi dve odvojene. Dodavanjem hostname-a (koji je RAZLICIT za
     # svaku instancu - videti docker-compose.yml, EUREKA_INSTANCE_HOSTNAME),
     # svaka instanca dobija svoj JEDINSTVEN identifikator.
-    instance-id: ${eureka.instance.hostname}:${spring.application.name}:${server.port}
+    instance-id: ${spring.application.name}:${server.port}
 
 management:
   endpoints:
