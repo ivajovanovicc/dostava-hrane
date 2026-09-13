@@ -35,6 +35,11 @@ public class UserService {
 
     public User updateUser(Long id, User updatedData) {
         User existing = getUserById(id);
+        userRepository.findByEmail(updatedData.getEmail()).ifPresent(other -> {
+            if (!other.getId().equals(existing.getId())) {
+                throw new DuplicateResourceException("Korisnik sa email-om " + updatedData.getEmail() + " vec postoji");
+            }
+        });
         existing.setFirstName(updatedData.getFirstName());
         existing.setLastName(updatedData.getLastName());
         existing.setEmail(updatedData.getEmail());
