@@ -67,30 +67,6 @@ services:
     depends_on:
       - eureka-server
 
-  # NOVO (BONUS - load balancing demo): DRUGA INSTANCA restaurant-service-a.
-  # Koristi ISTI Dockerfile/kod ("build: ./restaurant-service") kao i prva -
-  # nije poseban servis, samo JOS JEDNA KOPIJA istog. Kljucno:
-  # - "spring.application.name" (iz restaurant-service/application.yml)
-  #   OSTAJE "restaurant-service" - Eureka ce OBE instance grupisati pod
-  #   ISTOM aplikacijom "RESTAURANT-SERVICE", tacno ono sto Gateway-ov
-  #   "lb://restaurant-service" ocekuje da vidi.
-  # - EUREKA_INSTANCE_HOSTNAME je RAZLICIT ("restaurant-service-2") - ovo je
-  #   ono sto Eureki kaze "ovo je DRUGA, POSEBNA instanca", ne duplikat prve.
-  # - Host port (levo od dvotacke) je RAZLICIT (8092), jer host racunar ne
-  #   moze da ima dva razlicita kontejnera na istom portu. Container port
-  #   (desno, 8082) ostaje isti - iznutra, oba kontejnera "misle" da rade
-  #   na 8082, i to je u redu jer su to dva ODVOJENA, izolovana kontejnera.
-  restaurant-service-2:
-    build: ./restaurant-service
-    container_name: restaurant-service-2
-    ports:
-      - "8092:8082"
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      EUREKA_INSTANCE_HOSTNAME: restaurant-service-2
-    depends_on:
-      - eureka-server
-
   order-service:
     build: ./order-service
     container_name: order-service
@@ -144,7 +120,6 @@ services:
       - eureka-server
       - user-service
       - restaurant-service
-      - restaurant-service-2
       - order-service
       - delivery-service
       - notification-service
