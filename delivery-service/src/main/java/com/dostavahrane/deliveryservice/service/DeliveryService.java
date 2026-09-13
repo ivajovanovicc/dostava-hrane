@@ -13,9 +13,11 @@ import java.util.List;
 public class DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
+    private final CourierService courierService;
 
-    public DeliveryService(DeliveryRepository deliveryRepository) {
+    public DeliveryService(DeliveryRepository deliveryRepository, CourierService courierService) {
         this.deliveryRepository = deliveryRepository;
+        this.courierService = courierService;
     }
 
     public Delivery createDeliveryForOrder(Long orderId) {
@@ -52,6 +54,7 @@ public class DeliveryService {
 
     public Delivery assignCourier(Long id, Long courierId) {
         Delivery delivery = getDeliveryById(id);
+        courierService.getCourierById(courierId);
         delivery.setCourierId(courierId);
         delivery.setStatus(DeliveryStatus.ASSIGNED);
         delivery.setAssignedAt(LocalDateTime.now());
