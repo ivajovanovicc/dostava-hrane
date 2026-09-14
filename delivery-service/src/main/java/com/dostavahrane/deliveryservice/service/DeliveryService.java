@@ -1,6 +1,7 @@
 package com.dostavahrane.deliveryservice.service;
 
 import com.dostavahrane.deliveryservice.exception.ResourceNotFoundException;
+import com.dostavahrane.deliveryservice.model.Courier;
 import com.dostavahrane.deliveryservice.model.Delivery;
 import com.dostavahrane.deliveryservice.model.DeliveryStatus;
 import com.dostavahrane.deliveryservice.repository.DeliveryRepository;
@@ -48,13 +49,19 @@ public class DeliveryService {
         delivery.setStatus(newStatus);
         if (newStatus == DeliveryStatus.DELIVERED) {
             delivery.setDeliveredAt(LocalDateTime.now());
+        } else {
+            delivery.setDeliveredAt(null);
         }
         return deliveryRepository.save(delivery);
     }
 
     public Delivery assignCourier(Long id, Long courierId) {
         Delivery delivery = getDeliveryById(id);
-        courierService.getCourierById(courierId);
+        Courier courier = courierService.getCourierById(courierId);
+        if (!courier.isAvailable()) {
+            throw new IllegalArgumentException(
+                    "Kurir id=" + courierId + " trenutno nije dostupan");
+        }
         delivery.setCourierId(courierId);
         delivery.setStatus(DeliveryStatus.ASSIGNED);
         delivery.setAssignedAt(LocalDateTime.now());

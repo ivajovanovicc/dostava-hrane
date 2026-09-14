@@ -5,7 +5,9 @@ import com.dostavahrane.orderservice.client.UserClient;
 import com.dostavahrane.orderservice.dto.MenuItemDto;
 import com.dostavahrane.orderservice.dto.RestaurantDto;
 import com.dostavahrane.orderservice.dto.UserDto;
+import com.dostavahrane.orderservice.exception.ResourceNotFoundException;
 import com.dostavahrane.orderservice.exception.ServiceUnavailableException;
+import feign.FeignException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.stereotype.Service;
@@ -35,11 +37,11 @@ public class ExternalDataService {
     }
 
     private UserDto getUserFallback(Long userId, Throwable t) {
-        UserDto fallback = new UserDto();
-        fallback.setId(userId);
-        fallback.setFirstName("Korisnik");
-        fallback.setLastName("(podaci trenutno nedostupni)");
-        return fallback;
+        if (isNotFound(t)) {
+            throw new ResourceNotFoundException("Korisnik sa id=" + userId + " ne postoji");
+        }
+        throw new ServiceUnavailableException(
+                "user-service je trenutno nedostupan - ne mogu da potvrdim korisnika id=" + userId);
     }
 
     @CircuitBreaker(name = "restaurantService", fallbackMethod = "getRestaurantFallback")
@@ -49,10 +51,11 @@ public class ExternalDataService {
     }
 
     private RestaurantDto getRestaurantFallback(Long restaurantId, Throwable t) {
-        RestaurantDto fallback = new RestaurantDto();
-        fallback.setId(restaurantId);
-        fallback.setName("Restoran trenutno nedostupan");
-        return fallback;
+        if (isNotFound(t)) {
+            throw new ResourceNotFoundException("Restoran sa id=" + restaurantId + " ne postoji");
+        }
+        throw new ServiceUnavailableException(
+                "restaurant-service je trenutno nedostupan - ne mogu da potvrdim restoran id=" + restaurantId);
     }
 
     @CircuitBreaker(name = "restaurantService", fallbackMethod = "getMenuItemFallback")
@@ -66,7 +69,20 @@ public class ExternalDataService {
     // vratiti 503 Service Unavailable, ispravniji status za "drugi servis
     // trenutno ne odgovara" nego generican 400/500.
     private MenuItemDto getMenuItemFallback(Long menuItemId, Throwable t) {
+        if (isNotFound(t)) {
+            throw new ResourceNotFoundException("Jelo sa id=" + menuItemId + " ne postoji");
+        }
         throw new ServiceUnavailableException(
-                "restaurant-service je trenutno nedostupan - ne mogu da potvrdim cenu jela id=" + menuItemId);
+                "restaurant-service je trenutno nedostupan - podaci o jelu id=" + menuItemId + " trenutno nisu dostupni");
+    }
+
+    private boolean isNotFound(Throwable t) {
+        while (t != null) {
+            if (t instanceof FeignException.NotFound) {
+                return true;
+            }
+            t = t.getCause();
+        }
+        return false;
     }
 }

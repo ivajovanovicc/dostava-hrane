@@ -45,8 +45,12 @@ public class OrderService {
     // ============================================================
 
     public Order createOrder(OrderRequest request) {
-        UserDto user = externalDataService.getUser(request.getUserId());
+        externalDataService.getUser(request.getUserId());
         RestaurantDto restaurant = externalDataService.getRestaurant(request.getRestaurantId());
+        if (!restaurant.isActive()) {
+            throw new IllegalArgumentException(
+                    "Restoran id=" + request.getRestaurantId() + " trenutno nije aktivan");
+        }
 
         Order order = new Order();
         order.setUserId(request.getUserId());
@@ -62,6 +66,11 @@ public class OrderService {
                 throw new IllegalArgumentException(
                         "Jelo id=" + itemReq.getMenuItemId()
                                 + " ne pripada restoranu id=" + request.getRestaurantId());
+            }
+
+            if (!menuItem.isAvailable()) {
+                throw new IllegalArgumentException(
+                        "Jelo id=" + itemReq.getMenuItemId() + " trenutno nije dostupno");
             }
 
             OrderItem orderItem = new OrderItem();
