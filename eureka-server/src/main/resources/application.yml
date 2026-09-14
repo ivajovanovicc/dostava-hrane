@@ -3,23 +3,13 @@ spring:
     name: eureka-server
 
 server:
-  port: 8761   # standardni Eureka port - svi ostali servisi ce ovde gledati
+  port: 8761
 
 eureka:
   client:
-    # Eureka server tehnicki i sam MOZE da bude i svoj sopstveni klijent (da se
-    # registruje kod sebe) - ali to nema smisla i samo pravi nepotrebne logove/upozorenja.
-    # Zato mu eksplicitno kazemo: nemoj sam sebe da registrujes, niti da povlacis
-    # spisak servisa (ti SI taj spisak).
     register-with-eureka: false
     fetch-registry: false
   server:
-    # "Self preservation mode" - Eurekina zastita za slucaj da mnogo servisa
-    # odjednom prestane da salje "otkucaje srca" (heartbeat), Eureka to normalno
-    # tumaci kao problem u MREZI, ne kao da su servisi stvarno pali, pa ih
-    # zadrzava u spisku "za svaki slucaj". Za RAZVOJ na jednom racunaru ovo samo
-    # zbunjuje (vidimo "mrtve" servise kao da rade) - zato ga iskljucujemo.
-    # U produkciji bi ovo ostalo UKLJUCENO.
     enable-self-preservation: false
 
 management:

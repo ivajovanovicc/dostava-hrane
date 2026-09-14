@@ -4,8 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- "parent" povlači podrazumevane verzije SVIH Spring biblioteka.
-         Ne biramo mi verziju za svaku pojedinačno - Boot to uskladi za nas. -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,7 +11,6 @@
         <relativePath/>
     </parent>
 
-    <!-- Ovo troje zajedno jedinstveno identifikuje NAŠ projekat (ne biblioteku, nego nas). -->
     <groupId>com.dostavahrane</groupId>
     <artifactId>user-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -26,56 +23,43 @@
     </properties>
 
     <dependencies>
-        <!-- Omogucava da pravimo REST endpoint-e (kontrolere koji primaju HTTP zahteve) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Omogucava rad sa bazom kroz JPA (Java objekti <-> tabele u bazi, bez rucnog SQL-a) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- H2 = baza koja zivi u memoriji dok aplikacija radi. Odlicna za razvoj i demo. -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Omogucava anotacije kao @NotBlank, @Email na entitetima -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- NOVO: cini ovaj servis Eureka KLIJENTOM - sam ce se prijaviti na
-             eureka-server (localhost:8761) cim se pokrene, i redovno slati
-             "otkucaje srca" (heartbeat) da javi da je jos uvek ziv. -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- NOVO: Actuator - dodaje gotove "administratorske" endpointe kao
-             /actuator/health (da li servis radi), /actuator/info, /actuator/metrics.
-             Ne pisemo mi te endpointe - Spring Boot ih sam napravi cim doda ovu zavisnost. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- NOVO: springdoc-openapi - cita nase @RestController klase i SAM generise
-             API dokumentaciju + interaktivnu Swagger UI stranicu, bez da mi ista rucno pisemo. -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.14</version>
         </dependency>
 
-        <!-- Za testiranje (dolazi podrazumevano, ne diramo je jos) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

@@ -1,31 +1,14 @@
-# docker-compose.yml - podize CEO sistem (8 aplikacija + RabbitMQ) jednom
-# komandom: docker compose up --build
-#
-# KLJUCNA IDEJA za razumevanje ovog fajla: environment varijable ispod
-# ("environment:" sekcije) PREPISUJU vrednosti iz application.yml svakog
-# servisa - ne moramo da BRISEMO nista iz application.yml fajlova! Spring
-# Boot uvek daje prednost environment varijablama nad onim sto pise u yml
-# fajlu. Zato "eureka.client.service-url.defaultZone: http://localhost:8761/eureka"
-# iz svakog application.yml OSTAJE tacan default za lokalni razvoj kroz
-# IntelliJ, dok Docker Compose ispod postavlja DRUGACIJU vrednost (imena
-# kontejnera umesto localhost) SAMO kad se pokrece ovako, kroz Docker.
-#
-# I bas ovo resava sve one "iki.mshome.net" probleme koje smo lovile ranije -
-# Docker sam automatski razresava imena servisa (npr. "eureka-server") u
-# prave adrese unutar svoje interne mreze, bez ikakvog hostname/instance-id
-# trika koji smo morale rucno da radimo za lokalni razvoj.
-
 services:
 
   rabbitmq:
-    image: rabbitmq:3-management   # ista slika koju smo vec rucno pokrenule ranije
+    image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
 
   config-server:
-    build: ./config-server   # "build" znaci: iskoristi Dockerfile IZ TOG foldera
+    build: ./config-server
     container_name: config-server
     ports:
       - "8888:8888"
@@ -36,8 +19,7 @@ services:
     ports:
       - "8761:8761"
     depends_on:
-      - config-server   # "cekaj da config-server BAR POKUSA da krene pre mene"
-                         # (ne garantuje da je POTPUNO spreman, samo redosled pokretanja)
+      - config-server
 
   user-service:
     build: ./user-service
@@ -45,13 +27,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      # "eureka-server" ovde NIJE localhost niti IP adresa - to je IME
-      # KONTEJNERA iz ovog istog fajla (vidi "container_name" iznad). Docker
-      # ima svoj interni DNS koji ovo ime automatski prevede u pravu adresu.
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-      # Umesto "localhost" trika koji smo koristile za lokalni razvoj, ovde
-      # servis koristi SVOJE PRAVO ime kontejnera - ostali servisi ga mogu
-      # pronaci preko tog imena, bez ikakvih dodatnih podesavanja.
       EUREKA_INSTANCE_HOSTNAME: user-service
     depends_on:
       - eureka-server

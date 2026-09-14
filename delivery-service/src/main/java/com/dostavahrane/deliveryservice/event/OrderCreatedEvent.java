@@ -2,9 +2,6 @@ package com.dostavahrane.deliveryservice.event;
 
 import java.math.BigDecimal;
 
-// ISTOG oblika kao OrderCreatedEvent u order-service (svaki servis ima svoju
-// kopiju - objasnjeno detaljno tamo). Jackson ce automatski upariti polja
-// iz dolazeceg JSON-a sa ovim poljima po imenu.
 public class OrderCreatedEvent {
 
     private Long orderId;

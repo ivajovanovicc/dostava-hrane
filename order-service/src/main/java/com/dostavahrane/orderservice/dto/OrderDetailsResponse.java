@@ -7,11 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-// Ovo je "oblik" odgovora za GET /api/orders/{id}/details - AGREGACIONI
-// endpoint. Sadrzi podatke iz TRI izvora spojene u jedan odgovor:
-// 1) sama porudzbina (order-service, njegova baza)
-// 2) ime i adresa korisnika (user-service, preko Feign-a)
-// 3) naziv restorana (restaurant-service, preko Feign-a)
 public class OrderDetailsResponse {
 
     private Long orderId;

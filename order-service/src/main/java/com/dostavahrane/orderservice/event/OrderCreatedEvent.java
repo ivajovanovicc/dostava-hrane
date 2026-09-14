@@ -2,13 +2,6 @@ package com.dostavahrane.orderservice.event;
 
 import java.math.BigDecimal;
 
-// Ovo je oblik PORUKE koja putuje kroz RabbitMQ - slicno DTO-u, ali za
-// asinhronu komunikaciju umesto REST poziva. VAZNO: order-service, delivery-
-// service i notification-service NEMAJU zajednicki kod - svaki od njih ima
-// SVOJU kopiju ove klase (istog oblika). U vecim/pravim sistemima bi ovo
-// bilo definisano u zajednickoj biblioteci ili "event shemi" da se ne
-// duplira, ali za nas obim je najjednostavnije da svaki servis ima sopstvenu
-// kopiju.
 public class OrderCreatedEvent {
 
     private Long orderId;

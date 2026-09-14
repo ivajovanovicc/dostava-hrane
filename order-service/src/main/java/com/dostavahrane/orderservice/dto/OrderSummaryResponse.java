@@ -5,10 +5,6 @@ import com.dostavahrane.orderservice.model.OrderStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-// "Kraci" agregacioni oblik - za listu porudzbina jednog korisnika, gde
-// ne treba SVAKI detalj (stavke, adresa...), samo dovoljno da se prepoznaju
-// porudzbine u listi - obogaceno nazivom restorana (koji Order sam po sebi
-// ne zna, samo restaurantId).
 public class OrderSummaryResponse {
 
     private Long orderId;

@@ -9,9 +9,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-// @RestControllerAdvice = "ova klasa hvata greske iz SVIH @RestController-a
-// u ovoj aplikaciji, na jednom mestu". Umesto da svaki kontroler pojedinacno
-// hvata izuzetke (try/catch svuda, ponavljanje koda), sve je ovde centralizovano.
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -25,8 +22,6 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
     }
 
-    // "Mreza za hvatanje" za sve OSTALO sto nismo predvidele - i dalje
-    // vraca CIST JSON (ne golu 500 stranicu), samo generickiji status (400).
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(RuntimeException ex) {
         return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());

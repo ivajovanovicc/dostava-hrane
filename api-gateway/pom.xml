@@ -22,34 +22,22 @@
         <spring-cloud.version>2025.0.3</spring-cloud.version>
     </properties>
 
-    <!-- NAPOMENA: ovaj projekat NEMA spring-boot-starter-web kao ostali servisi!
-         Spring Cloud Gateway interno radi na drugacijoj (reaktivnoj, WebFlux) osnovi
-         umesto klasicnog Tomcat-a. Nama to ne menja gotovo nista u praksi - ne pisemo
-         reaktivni kod, samo podesavamo rute kroz YAML - ali NE SME da se meša sa
-         spring-boot-starter-web u istom projektu, pa ga zato ovde nema. -->
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
         </dependency>
 
-        <!-- Gateway mora i sam da bude Eureka klijent - jedino tako moze da pita
-             "gde se trenutno nalazi user-service?" umesto da mu adresa bude fiksirana. -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- Omogucava load balancing - kad bi postojale 2 instance restaurant-service,
-             ovo je biblioteka koja bira izmedju njih (round-robin po podrazumevanom). -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!-- NOVO: Actuator. Kod Gateway-a je posebno korisno - dobijamo
-             i /actuator/gateway/routes, gde se vidi TACNO koje su rute
-             trenutno ucitane, korisno za debugovanje. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

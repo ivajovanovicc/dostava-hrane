@@ -2,18 +2,6 @@ package com.dostavahrane.orderservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-// DTO (Data Transfer Object) = obicna klasa BEZ @Entity, samo za prenosenje
-// podataka preko mreze. Ovo NIJE isti User koji postoji u user-service (tamo
-// je pravi JPA entitet, ovde je samo "kopija oblika" njegovog JSON odgovora).
-// order-service NEMA pristup bazi user-service-a niti njegovim klasama -
-// jedini nacin da sazna nesto o korisniku je HTTP poziv, a odgovor mora
-// negde da "sleti" - upravo u ovu klasu.
-//
-// @JsonIgnoreProperties(ignoreUnknown = true) - ako user-service ikad doda
-// NOVO polje u svoj odgovor (npr. "phoneVerified") koje mi ovde nismo
-// predvidele, Jackson NECE da baci gresku - samo ce ignorisati ono sto ne
-// prepoznaje. Bez ovoga, dodavanje bilo kog polja na DRUGOM servisu bi
-// poremetilo NAS servis - lose povezivanje izmedju timova/servisa.
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
 

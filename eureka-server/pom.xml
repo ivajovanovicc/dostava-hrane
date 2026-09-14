@@ -19,15 +19,10 @@
 
     <properties>
         <java.version>17</java.version>
-        <!-- Spring Cloud NIJE deo Spring Boot-a - to je poseban, veliki paket biblioteka
-             (Eureka, Gateway, Feign, Resilience4j, Config Server...) koji mora da bude
-             TACNO uskladjena verzija sa nasom Spring Boot verzijom (3.5.x -> 2025.0.x). -->
         <spring-cloud.version>2025.0.3</spring-cloud.version>
     </properties>
 
     <dependencies>
-        <!-- Ovo JEDNA zavisnost daje nam ceo Eureka server: ugradjeni web UI (dashboard),
-             REST API na koji se servisi registruju, sve. -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -43,9 +38,6 @@
         </dependency>
     </dependencies>
 
-    <!-- dependencyManagement (za razliku od dependencies iznad) ne dodaje nista samo po sebi -
-         samo kaze "kad god dodam BILO KOJU org.springframework.cloud biblioteku u ovom projektu,
-         koristi bas verziju iz Spring Cloud 2025.0.3 paketa", da se sve verzije slazu automatski. -->
     <dependencyManagement>
         <dependencies>
             <dependency>

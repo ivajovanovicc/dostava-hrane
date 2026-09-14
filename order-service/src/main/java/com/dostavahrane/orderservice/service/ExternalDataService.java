@@ -12,13 +12,6 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.stereotype.Service;
 
-// OVA klasa postoji SAMO da bi @CircuitBreaker/@Retry anotacije stvarno
-// radile. Da su ove metode ostale unutar OrderService-a, i da ih
-// OrderService poziva "sam sebe" (this.getRestaurant(...)), Spring-ov
-// AOP proxy bi se ZAOBISAO - to se zove "self-invocation problem",
-// vrlo cest Spring bag/gotcha. Kad je poziv IZMEDJU DVA RAZLICITA
-// bean-a (OrderService -> ExternalDataService), proxy ispravno
-// presrece poziv i anotacije rade kako treba.
 @Service
 public class ExternalDataService {
 
@@ -64,10 +57,6 @@ public class ExternalDataService {
         return restaurantClient.getMenuItemById(menuItemId);
     }
 
-    // PROMENA: baca sad ServiceUnavailableException (nasa, specificna) umesto
-    // gole RuntimeException - GlobalExceptionHandler ce ovo prepoznati i
-    // vratiti 503 Service Unavailable, ispravniji status za "drugi servis
-    // trenutno ne odgovara" nego generican 400/500.
     private MenuItemDto getMenuItemFallback(Long menuItemId, Throwable t) {
         if (isNotFound(t)) {
             throw new ResourceNotFoundException("Jelo sa id=" + menuItemId + " ne postoji");

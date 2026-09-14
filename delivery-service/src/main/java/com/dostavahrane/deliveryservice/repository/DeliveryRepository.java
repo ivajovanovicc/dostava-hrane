@@ -7,6 +7,5 @@ import java.util.Optional;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
-    // Za endpoint "dostava za datu porudzbinu" - GET /api/deliveries/by-order/{orderId}
     Optional<Delivery> findByOrderId(Long orderId);
 }

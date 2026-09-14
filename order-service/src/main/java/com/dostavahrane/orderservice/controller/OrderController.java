@@ -26,8 +26,6 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    // --- Osnovni CRUD ---
-
     @Operation(summary = "Kreiranje porudžbine")
     @ApiResponse(responseCode = "201", description = "Porudžbina kreirana")
     @ApiResponse(responseCode = "503", description = "Zavisni servis trenutno nedostupan")
@@ -67,8 +65,6 @@ public class OrderController {
 
     // --- AGREGACIONI ENDPOINTI ---
 
-    // Spaja podatke iz OVOG servisa + user-service (preko Feign) +
-    // restaurant-service (preko Feign) u jedan odgovor.
     @Operation(summary = "Detalji porudžbine (korisnik + restoran + stavke)")
     @ApiResponse(responseCode = "404", description = "Porudžbina nije pronađena")
     @ApiResponse(responseCode = "503", description = "Zavisni servis trenutno nedostupan")
@@ -77,9 +73,6 @@ public class OrderController {
         return orderService.getOrderDetails(id);
     }
 
-    // Putanja je /api/orders/user/{userId} (NE /api/users/{userId}/orders -
-    // objasnjeno malopre zasto), sve porudzbine jednog korisnika, obogacene
-    // nazivima restorana.
     @Operation(summary = "Porudžbine jednog korisnika")
     @GetMapping("/user/{userId}")
     public List<OrderSummaryResponse> getOrdersForUser(@PathVariable Long userId) {

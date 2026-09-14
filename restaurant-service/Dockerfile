@@ -1,5 +1,3 @@
-# Isti obrazac kao user-service/Dockerfile (dvofazni build) - videti tamo za
-# detaljna objasnjenja. Ovde se razlikuje samo EXPOSE port.
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .

@@ -23,8 +23,6 @@
     </properties>
 
     <dependencies>
-        <!-- Ovo JEDNA zavisnost daje nam ceo Config Server: ucitava fajlove
-             sa podesavanjima i sluzi ih ostalim servisima preko REST API-ja. -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>

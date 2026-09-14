@@ -15,9 +15,7 @@ public class OrderRequest {
     private Long restaurantId;
 
     @NotEmpty(message = "Porudzbina mora imati bar jednu stavku")
-    @Valid // KLJUCNO: bez ovoga, @NotNull/@Positive UNUTAR OrderItemRequest-a
-    // se ne bi proveravali - @Valid ovde kaze "udji i u SVAKI element liste
-    // i proveri i NJEGOVE anotacije, ne samo da lista nije prazna".
+    @Valid
     private List<OrderItemRequest> items;
 
     public OrderRequest() {

@@ -38,8 +38,6 @@ public class DeliveryController {
         return deliveryService.getDeliveryById(id);
     }
 
-    // Rucno pravljenje dostave (npr. za testiranje) - u praksi ce ovo
-    // najcesce raditi RabbitMQ "slusalac" automatski, ne ovaj endpoint.
     @Operation(summary = "Ručno kreiranje dostave za porudžbinu")
     @ApiResponse(responseCode = "201", description = "Dostava kreirana")
     @PostMapping

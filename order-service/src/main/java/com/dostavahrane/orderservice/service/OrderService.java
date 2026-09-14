@@ -23,12 +23,6 @@ public class OrderService {
     private final ExternalDataService externalDataService;
     private final OrderEventPublisher orderEventPublisher;
 
-    // PROMENA: dodata podrazumevana vrednost ":250" posle dvotacke. Ako
-    // Config Server iz BILO KOG razloga nije dostupan kad se ova aplikacija
-    // pokrene (npr. spor start u Docker-u), aplikacija se VISE NECE RUSITI -
-    // samo ce koristiti ovu vrednost umesto da padne u pokusaju. Ovo je
-    // "mreza za slucaj pada", ne zamena za Config Server - kad je Config
-    // Server dostupan (normalan slucaj), NJEGOVA vrednost i dalje pobedjuje.
     @Value("${delivery.default-fee:250}")
     private BigDecimal deliveryFee;
 
@@ -39,10 +33,6 @@ public class OrderService {
         this.externalDataService = externalDataService;
         this.orderEventPublisher = orderEventPublisher;
     }
-
-    // ============================================================
-    // POSLOVNA LOGIKA - osnovni CRUD
-    // ============================================================
 
     public Order createOrder(OrderRequest request) {
         externalDataService.getUser(request.getUserId());
@@ -119,10 +109,6 @@ public class OrderService {
         Order order = getOrderById(id);
         orderRepository.delete(order);
     }
-
-    // ============================================================
-    // AGREGACIONI ENDPOINTI
-    // ============================================================
 
     public OrderDetailsResponse getOrderDetails(Long orderId) {
         Order order = getOrderById(orderId);

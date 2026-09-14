@@ -17,10 +17,6 @@ spring:
     console:
       enabled: true
 
-  # NOVO: podesavanja za konekciju ka RabbitMQ-u. Ove vrednosti se slucajno
-  # poklapaju sa Spring Boot-ovim PODRAZUMEVANIM vrednostima (localhost:5672,
-  # guest/guest) - tehnicki ne bi morale da se pisu, ali ih pisemo eksplicitno
-  # da je jasno odakle dolaze i lako se menjaju kasnije (npr. za Docker Compose).
   rabbitmq:
     host: localhost
     port: 5672
@@ -38,7 +34,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
   instance:
-    hostname: localhost   # TODO (Docker Compose faza): ukloniti
+    hostname: localhost
     instance-id: ${spring.application.name}:${server.port}
 
 management:

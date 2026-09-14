@@ -6,16 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
-// @Entity kaze Hibernate-u: "ova klasa predstavlja tabelu u bazi, napravi je automatski".
 @Entity
-// Bez @Table bi Hibernate tabelu nazvao "USER" po imenu klase - a to je REZERVISANA rec
-// u H2 bazi (koristi se u SQL komandama), pa bi kreiranje tabele puklo. Zato eksplicitno
-// dajemo drugo ime.
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // baza sama dodeljuje sledeci broj (1, 2, 3...)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Ime je obavezno")
@@ -37,23 +33,13 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    // JPA OBAVEZNO trazi prazan konstruktor bez argumenata - Hibernate njega koristi
-    // "iza kulisa" da napravi prazan objekat, pa tek onda preko reflection-a popuni polja.
-    // Mi ga ne pozivamo rucno, ali mora da postoji.
     public User() {
     }
 
-    // @PrePersist = "pozovi ovu metodu automatski, tacno pre nego sto se objekat prvi put
-    // upise u bazu". Zato ne moramo rucno da pisemo setCreatedAt(...) svaki put kad pravimo korisnika.
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
-
-    // --- Getteri i setteri ---
-    // Namerno su napisani rucno (ne koristimo Lombok biblioteku koja bi ovo generisala
-    // automatski) - da ti bude vidljivo i jasno sta tacno postoji u klasi, bez "magije".
-    // Hibernate-u ovi getteri/setteri trebaju da bi mogao da cita i upisuje vrednosti polja.
 
     public Long getId() {
         return id;

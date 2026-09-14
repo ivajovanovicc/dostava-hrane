@@ -45,44 +45,32 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!-- NOVO: OpenFeign - omogucava da pisemo Java interfejs koji "izgleda"
-             kao poziv obicne metode, a u pozadini salje pravi HTTP zahtev
-             drugom servisu (po imenu, preko Eureke). -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <!-- NOVO: Resilience4j - dodaje Circuit Breaker i Retry mehanizme
-             na Feign pozive, sa Spring Boot integracijom (automatski
-             prepoznaje konfiguraciju iz application.yml). -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         </dependency>
 
-        <!-- NOVO: Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- NOVO: Swagger / OpenAPI -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.14</version>
         </dependency>
 
-        <!-- NOVO: Spring AMQP - za slanje poruka ka RabbitMQ-u -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
-        <!-- NOVO: Config Client - omogucava da ovaj servis PROCITA podesavanja
-             sa Config Server-a pri pokretanju, umesto da ih trazi SAMO u
-             svom lokalnom application.yml. -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>

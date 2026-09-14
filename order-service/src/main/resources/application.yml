@@ -2,17 +2,6 @@ spring:
   application:
     name: order-service
 
-  # Podesavanje ostaje jednostavno: "optional:" prefiks znaci da ako Config
-  # Server nije dostupan, order-service CE SVEJEDNO da se pokrene (bez te
-  # dodatne vrednosti - sad imamo i podrazumevanu vrednost u samom kodu,
-  # videti OrderService.java, kao dodatnu sigurnost).
-  #
-  # NAPOMENA: PROBALE smo "fail-fast: true" + "retry" ovde da nateramo
-  # aplikaciju da UPORNIJE pokusava Config Server pri pokretanju u Docker-u -
-  # ali "fail-fast" doslovno znaci "SRUSI aplikaciju ako ne uspe", sto je
-  # suprotno od "optional:". Ta kombinacija je izazvala pad aplikacije umesto
-  # da je popravi. Vracene smo na jednostavnije, sigurnije podesavanje +
-  # resile problem NA PRAVOM mestu - podrazumevanom vrednoscu u kodu.
   config:
     import: optional:configserver:http://localhost:8888
 
@@ -48,21 +37,18 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
   instance:
-    hostname: localhost   # TODO (Docker Compose faza): ukloniti
+    hostname: localhost
     instance-id: ${spring.application.name}:${server.port}
 
-# NOVO: Resilience4j podesavanja. Imena ("userService", "restaurantService")
-# su NASA proizvoljna imena - moraju se TACNO poklapati sa onim sto stavimo
-# u @CircuitBreaker(name = "...") i @Retry(name = "...") anotacije u kodu.
 resilience4j:
   circuitbreaker:
     instances:
       userService:
-        sliding-window-size: 5          # posmatra poslednjih 5 poziva da izracuna % gresaka
-        minimum-number-of-calls: 5      # ne donosi odluku dok se ne skupi bar 5 poziva
-        failure-rate-threshold: 50      # ako 50%+ tih poziva padne - "puca" prekidac (OPEN)
-        wait-duration-in-open-state: 10s # koliko ceka dok ponovo ne proba (posle OPEN stanja)
-        permitted-number-of-calls-in-half-open-state: 3 # koliko "probnih" poziva pusta da testira da li se servis oporavio
+        sliding-window-size: 5
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
       restaurantService:
         sliding-window-size: 5
         minimum-number-of-calls: 5
@@ -73,8 +59,8 @@ resilience4j:
   retry:
     instances:
       userService:
-        max-attempts: 3      # pokusaj poziv najvise 3 puta ukupno pre nego sto odustanes
-        wait-duration: 1s    # sacekaj 1 sekundu izmedju pokusaja
+        max-attempts: 3
+        wait-duration: 1s
       restaurantService:
         max-attempts: 3
         wait-duration: 1s

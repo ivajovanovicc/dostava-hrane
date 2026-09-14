@@ -9,11 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-// Zasto POSEBAN kontroler za jela, a ne sve u RestaurantController?
-// Dodavanje jela ZAHTEVA restaurantId (ide kroz /api/restaurants/{id}/menu, iznad).
-// Ali citanje/izmena/brisanje JEDNOG konkretnog jela vec ima svoj sopstveni ID
-// i restoran mu vise nije neophodan u putanji - zato dobija svoj kraci URL:
-// /api/menu-items/{itemId}
 @Tag(name = "Jela", description = "Pojedinačna jela iz jelovnika")
 @RestController
 @RequestMapping("/api/menu-items")

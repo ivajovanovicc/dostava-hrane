@@ -26,8 +26,6 @@ public class RestaurantController {
         this.menuItemService = menuItemService;
     }
 
-    // --- Osnovni CRUD nad restoranima (isti obrazac kao UserController) ---
-
     @Operation(summary = "Lista svih restorana")
     @GetMapping
     public List<Restaurant> getAllRestaurants() {
@@ -64,9 +62,6 @@ public class RestaurantController {
         restaurantService.deleteRestaurant(id);
     }
 
-    // --- Jelovnik konkretnog restorana ("ugnjezdeni" resurs) ---
-    // Putanja sadrzi ID restorana jer jelo UVEK pripada tacno jednom restoranu -
-    // logicki ima smisla da to bude deo URL-a: /api/restaurants/3/menu
 
     @Operation(summary = "Jelovnik restorana")
     @ApiResponse(responseCode = "404", description = "Restoran nije pronađen")

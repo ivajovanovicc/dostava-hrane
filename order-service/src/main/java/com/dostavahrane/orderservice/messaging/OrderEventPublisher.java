@@ -15,9 +15,6 @@ public class OrderEventPublisher {
     }
 
     public void publishOrderCreated(OrderCreatedEvent event) {
-        // convertAndSend(exchange, routingKey, poruka). Kod FanoutExchange-a,
-        // routingKey se IGNORISE (zato prosledjujemo prazan string "") - poruka
-        // ionako ide SVIMA koji su prikaceni na ovaj exchange, bez obzira na kljuc.
         rabbitTemplate.convertAndSend(RabbitMQConfig.ORDER_CREATED_EXCHANGE, "", event);
     }
 }

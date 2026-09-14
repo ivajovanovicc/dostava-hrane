@@ -25,9 +25,6 @@ public class Restaurant {
 
     private boolean active = true;
 
-    // NAPOMENA: ova klasa NEMA "List<MenuItem> menuItems" polje, iako u bazi
-    // Restaurant JESTE "roditelj" jela (MenuItem tabela ima FK ka njoj).
-    // Ovo je NAMERNO - objasnjeno detaljno u komentaru MenuItem klase ispod.
 
     public Restaurant() {
     }

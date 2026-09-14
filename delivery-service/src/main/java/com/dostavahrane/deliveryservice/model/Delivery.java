@@ -14,13 +14,9 @@ public class Delivery {
     private Long id;
 
     @NotNull(message = "orderId je obavezan")
-    private Long orderId; // referenca ka porudzbini u order-service (druga baza, druga usluga)
+    private Long orderId;
 
-    // NAPOMENA: courierId je NAMERNO obican Long, ne prava JPA veza (@ManyToOne)
-    // ka Courier klasi - iako Courier ZAISTA zivi u istoj bazi (za razliku od
-    // orderId). Ovo je uskladjeno sa originalnim planom i drzi model jednostavnim -
-    // mogla je i da bude prava veza, ali za nas obim projekta nije neophodno.
-    private Long courierId; // moze biti null dok kurir nije dodeljen
+    private Long courierId;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;

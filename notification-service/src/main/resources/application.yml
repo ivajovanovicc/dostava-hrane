@@ -34,7 +34,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
   instance:
-    hostname: localhost   # TODO (Docker Compose faza): ukloniti
+    hostname: localhost
     instance-id: ${spring.application.name}:${server.port}
 
 management:

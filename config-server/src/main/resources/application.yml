@@ -1,21 +1,17 @@
 server:
-  port: 8888   # standardni Config Server port
+  port: 8888
 
 spring:
   application:
     name: config-server
 
   profiles:
-    active: native   # "native" = citaj podesavanja sa lokalnog fajl-sistema
-                      # (alternativa bi bila "git" profil, da cita iz Git repozitorijuma -
-                      # slozenije za postaviti, native je sasvim dovoljno za nas projekat)
+    active: native
 
   cloud:
     config:
       server:
         native:
-          # Gde tacno da trazi fajlove sa podesavanjima - u nasem slucaju,
-          # folder config-repo unutar resursa OVOG projekta.
           search-locations: classpath:/config-repo/
 
 management:

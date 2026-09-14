@@ -10,6 +10,5 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     List<Notification> findByRecipientUserId(Long recipientUserId);
 
-    // Za idempotentnost - "da li vec postoji obavestenje ZA OVU porudzbinu"
     Optional<Notification> findByOrderId(Long orderId);
 }

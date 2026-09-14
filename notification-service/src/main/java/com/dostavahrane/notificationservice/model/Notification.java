@@ -18,13 +18,7 @@ public class Notification {
     private String type; // npr. "ORDER_CREATED"
 
     @NotNull(message = "recipientUserId je obavezan")
-    private Long recipientUserId; // referenca ka user-service
-
-    // DODATNO u odnosu na originalni plan (nije bilo u prvobitnom modelu):
-    // referenca ka porudzbini zbog koje je obavestenje nastalo. Bez ovoga
-    // ne bismo imale nacin da proverimo "da li sam vec napravila obavestenje
-    // za ovu porudzbinu" - a to nam treba za IDEMPOTENTNOST (isti mehanizam
-    // kao kod delivery-service, primenjen i ovde).
+    private Long recipientUserId;
     private Long orderId;
 
     @NotBlank(message = "message je obavezan")
