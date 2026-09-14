@@ -341,5 +341,9 @@ Dodela postavlja status dostave na `ASSIGNED`. Agregat porudžbine: `GET http://
 Ovaj screenshot dokazuje da su svi servisi registrovani i vidljivi u Eureka UI (status UP).
 
 ![Swagger UI](docs/images/korisnik-swagger.png)
+![Swagger UI](docs/images/restoran-swagger.png)
+![Swagger UI](docs/images/porudzbina-swagger.png)
+![Swagger UI](docs/images/dostava-swagger.png)
+![Swagger UI](docs/images/obavestenja-swagger.png)
 
-Ovaj screenshot dokazuje da je Swagger UI dostupan na poslovnom servisu sa anotiranim endpoint-ima.
+Ovi screenshot-ovi dokazuju da je Swagger UI dostupan na poslovnim servisima sa anotiranim endpoint-ima.
